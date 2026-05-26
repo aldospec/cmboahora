@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal da Transparência da Câmara Municipal de Boa Hora/PI — Acesso público a informações orçamentárias, contábeis, financeiras e administrativas conforme Lei nº 12.527/2011 (LAI) e LC nº 101/2000 (LRF).">
+  <meta name="keywords" content="transparência, Câmara Municipal, Boa Hora, Piauí, LAI, LRF, PNTP, Atricon, SAPL">
+  <title>Portal da Transparência — Câmara Municipal de Boa Hora/PI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --verde-legislativo: #1b4332;
+      --verde-escuro: #0d2818;
+      --verde-medio: #2d6a4f;
+      --verde-claro: #95d5b2;
+      --verde-sutil: #f0f7f2;
+      --dourado: #b8860b;
+      --dourado-claro: #d4a017;
+      --branco: #ffffff;
+      --cinza-fundo: #f7f8f9;
+      --cinza-borda: #e1e5e9;
+      --cinza-texto: #4a5568;
+      --cinza-suave: #718096;
+      --texto-principal: #1a202c;
+      --azul-link: #1351b4;
+      --azul-sapl: #343a40;
+      --vermelho-alerta: #d33;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --sombra-sutil: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+      --sombra-card: 0 2px 8px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.08);
+      --sombra-hover: 0 8px 24px rgba(27,67,50,0.12), 0 2px 6px rgba(0,0,0,0.08);
+      --transicao: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--texto-principal);
+      background: var(--branco);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .skip-link {
+      position: absolute; top: -100px; left: 0;
+      background: var(--verde-escuro); color: var(--branco);
+      padding: 12px 20px; z-index: 9999;
+      text-decoration: none; font-weight: 600;
+      border-radius: 0 0 var(--radius-md) 0;
+    }
+    .skip-link:focus { top: 0; }
+    *:focus-visible { outline: 3px solid var(--dourado); outline-offset: 2px; border-radius: var(--radius-sm); }
+
+    .barra-acessibilidade {
+      background: var(--verde-escuro); color: var(--branco);
+      padding: 8px 0; font-size: 0.85rem;
+    }
+    .barra-acessibilidade .container {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .acess-controles { display: flex; gap: 4px; flex-wrap: wrap; }
+    .acess-btn {
+      background: transparent; color: var(--branco);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 4px 12px; font-size: 0.82rem;
+      cursor: pointer; border-radius: var(--radius-sm);
+      font-family: inherit; transition: var(--transicao);
+      text-decoration: none; display: inline-block;
+    }
+    .acess-btn:hover, .acess-btn:focus {
+      background: rgba(255,255,255,0.15); border-color: var(--dourado);
+    }
+    .acess-info { font-size: 0.82rem; color: rgba(255,255,255,0.85); }
+
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+    .cabecalho {
+      background: linear-gradient(135deg, var(--verde-legislativo) 0%, var(--verde-escuro) 100%);
+      color: var(--branco); padding: 32px 0 28px;
+      border-bottom: 4px solid var(--dourado);
+      position: relative; overflow: hidden;
+    }
+    .cabecalho::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 400px; height: 100%;
+      background: radial-gradient(circle at top right, rgba(212,160,23,0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .cabecalho .container {
+      display: flex; align-items: center; gap: 24px;
+      position: relative; z-index: 1;
+    }
+    .brasao {
+      width: 80px; height: 80px; background: var(--branco);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: var(--verde-legislativo); font-family: 'Libre Caslon Text', serif;
+      font-weight: 700; font-size: 1.8rem; flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 3px solid var(--dourado);
+      overflow: hidden; padding: 4px;
+    }
+    .brasao img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+    .cabecalho-textos h1 {
+      font-family: 'Libre Caslon Text', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700; letter-spacing: -0.01em; line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .cabecalho-textos .subtitulo { font-size: 0.95rem; opacity: 0.92; font-weight: 400; letter-spacing: 0.02em; }
+    .cabecalho-textos .estado { font-size: 0.85rem; opacity: 0.75; margin-top: 2px; font-style: italic; }
+
+    .navegacao-sistemas {
+      background: var(--verde-medio);
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .navegacao-sistemas .container {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; align-items: center;
+    }
+    .nav-sistema-label {
+      color: var(--branco); font-size: 0.85rem; font-weight: 500;
+      margin-right: 12px; opacity: 0.85;
+    }
+    .nav-sistema-btn {
+      background: rgba(255,255,255,0.12);
+      color: var(--branco);
+      padding: 8px 18px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: var(--transicao);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .nav-sistema-btn:hover, .nav-sistema-btn:focus {
+      background: var(--dourado);
+      border-color: var(--dourado);
+      transform: translateY(-1px);
+    }
+    .nav-sistema-btn .seta {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .busca-container { background: var(--cinza-fundo); padding: 20px 0; border-bottom: 1px solid var(--cinza-borda); }
+    .busca-form { display: flex; gap: 8px; max-width: 600px; margin: 0 auto; }
+    .busca-input {
+      flex: 1; padding: 10px 16px; font-size: 0.95rem; font-family: inherit;
+      border: 1px solid var(--cinza-borda); border-radius: var(--radius-md);
+      background: var(--branco); color: var(--texto-principal); transition: var(--transicao);
+    }
+    .busca-input:focus { outline: none; border-color: var(--verde-medio); box-shadow: 0 0 0 3px rgba(45,106,79,0.15); }
+    .busca-btn {
+      padding: 10px 24px; background: var(--verde-legislativo); color: var(--branco);
+      border: none; border-radius: var(--radius-md); font-family: inherit;
+      font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: var(--transicao);
+    }
+    .busca-btn:hover, .busca-btn:focus { background: var(--verde-escuro); }
+
+    .intro { padding: 56px 0 40px; text-align: center; max-width: 880px; margin: 0 auto; }
+    .intro h2 {
+      font-family: 'Libre Caslon Text', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      color: var(--verde-escuro); margin-bottom: 16px; font-weight: 700; letter-spacing: -0.01em;
+    }
+    .intro .ornamento { width: 60px; height: 3px; background: var(--dourado); margin: 0 auto 24px; border-radius: 2px; }
+    .intro p { font-size: 1.05rem; color: var(--cinza-texto); max-width: 720px; margin: 0 auto; line-height: 1.7; }
+
+    .destaques { padding: 32px 0; background: var(--cinza-fundo); border-top: 1px solid var(--cinza-borda); border-bottom: 1px solid var(--cinza-borda); }
+    .destaques-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .destaque-card {
+      background: var(--branco); padding: 20px 24px;
+      border-radius: var(--radius-md); border-left: 4px solid var(--dourado);
+      box-shadow: var(--sombra-sutil); text-decoration: none;
+      color: var(--texto-principal); display: flex; align-items: center;
+      gap: 16px; transition: var(--transicao);
+    }
+    .destaque-card:hover, .destaque-card:focus {
+      transform: translateY(-2px); box-shadow: var(--sombra-hover);
+      border-left-color: var(--verde-legislativo);
+    }
+    .destaque-icone {
+      width: 48px; height: 48px; background: var(--verde-sutil);
+      border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;
+      color: var(--verde-legislativo); flex-shrink: 0;
+    }
+    .destaque-icone svg { width: 28px; height: 28px; }
+    .destaque-texto strong { display: block; font-size: 0.95rem; color: var(--verde-escuro); font-weight: 700; margin-bottom: 2px; }
+    .destaque-texto span { font-size: 0.82rem; color: var(--cinza-suave); }
+
+    .secoes { padding: 56px 0 72px; }
+    .secoes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+    .secao {
+      background: var(--branco); border: 1px solid var(--cinza-borda);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: var(--transicao); display: flex; flex-direction: column;
+    }
+    .secao:hover { box-shadow: var(--sombra-card); border-color: var(--verde-claro); }
+    .secao-header {
+      background: linear-gradient(135deg, var(--verde-legislativo) 0%, var(--verde-medio) 100%);
+      color: var(--branco); padding: 20px 24px;
+      display: flex; align-items: center; gap: 14px; position: relative;
+    }
+    .secao.sapl .secao-header {
+      background: linear-gradient(135deg, var(--azul-sapl) 0%, #495057 100%);
+    }
+    .secao-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--dourado); }
+    .secao-icone {
+      width: 42px; height: 42px; background: rgba(255,255,255,0.15);
+      border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .secao-icone svg { width: 24px; height: 24px; color: var(--branco); }
+    .secao-titulo { font-family: 'Libre Caslon Text', serif; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1.3; }
+    .secao-lista { list-style: none; padding: 8px 0; flex: 1; max-height: 480px; overflow-y: auto; }
+    .secao-lista::-webkit-scrollbar { width: 6px; }
+    .secao-lista::-webkit-scrollbar-track { background: var(--cinza-fundo); }
+    .secao-lista::-webkit-scrollbar-thumb { background: var(--verde-claro); border-radius: 3px; }
+    .secao-lista li { border-bottom: 1px solid var(--cinza-borda); }
+    .secao-lista li:last-child { border-bottom: none; }
+    .secao-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 24px; color: var(--azul-link); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; transition: var(--transicao);
+    }
+    .secao-link::before {
+      content: ''; width: 6px; height: 6px; background: var(--dourado);
+      border-radius: 50%; flex-shrink: 0; opacity: 0.5; transition: var(--transicao);
+    }
+    .secao-link:hover, .secao-link:focus { background: var(--verde-sutil); color: var(--verde-escuro); padding-left: 28px; }
+    .secao-link:hover::before, .secao-link:focus::before { opacity: 1; transform: scale(1.4); }
+    .secao-link .indicador-externo { margin-left: auto; color: var(--cinza-suave); font-size: 0.7rem; opacity: 0.6; }
+
+    .secao-aviso {
+      padding: 14px 24px; background: #fffbeb; color: #92400e;
+      font-size: 0.82rem; border-top: 1px solid #fde68a;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .secao-aviso::before { content: 'ⓘ'; font-size: 1.1rem; flex-shrink: 0; }
+
+    .legislacao { background: var(--verde-sutil); padding: 48px 0; border-top: 4px solid var(--dourado); }
+    .legislacao-titulo { text-align: center; font-family: 'Libre Caslon Text', serif; color: var(--verde-escuro); font-size: 1.4rem; margin-bottom: 8px; }
+    .legislacao-sub { text-align: center; color: var(--cinza-texto); font-size: 0.92rem; margin-bottom: 32px; }
+    .legislacao-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; max-width: 1100px; margin: 0 auto; }
+    .legis-card {
+      background: var(--branco); padding: 16px 20px; border-radius: var(--radius-md);
+      border-left: 3px solid var(--verde-medio); text-decoration: none;
+      color: var(--texto-principal); transition: var(--transicao);
+      font-size: 0.88rem; box-shadow: var(--sombra-sutil);
+    }
+    .legis-card:hover { transform: translateX(4px); border-left-color: var(--dourado); box-shadow: var(--sombra-card); }
+    .legis-card strong { display: block; color: var(--verde-escuro); font-size: 0.85rem; margin-bottom: 4px; }
+
+    .rodape { background: var(--verde-escuro); color: var(--branco); padding: 48px 0 24px; }
+    .rodape-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-bottom: 32px; }
+    .rodape-coluna h3 {
+      font-family: 'Libre Caslon Text', serif; font-size: 1.1rem; margin-bottom: 16px;
+      color: var(--branco); padding-bottom: 8px;
+      border-bottom: 2px solid var(--dourado); display: inline-block;
+    }
+    .rodape-coluna p, .rodape-coluna a {
+      font-size: 0.88rem; color: rgba(255,255,255,0.85); line-height: 1.7;
+      text-decoration: none; display: block; margin-bottom: 4px; transition: var(--transicao);
+    }
+    .rodape-coluna a:hover { color: var(--dourado-claro); }
+    .rodape-coluna .contato-item { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; }
+    .rodape-coluna .contato-item svg { width: 16px; height: 16px; margin-top: 4px; flex-shrink: 0; color: var(--dourado-claro); }
+    .rodape-base {
+      border-top: 1px solid rgba(255,255,255,0.15); padding-top: 20px;
+      text-align: center; font-size: 0.82rem; color: rgba(255,255,255,0.7);
+    }
+    .rodape-base strong { color: var(--dourado-claro); }
+
+    body.alto-contraste { background: #000 !important; color: #fff !important; }
+    body.alto-contraste .secao, body.alto-contraste .destaque-card, body.alto-contraste .legis-card { background: #000 !important; color: #fff !important; border-color: #ff0 !important; }
+    body.alto-contraste .secao-link { color: #ff0 !important; }
+    body.alto-contraste .cabecalho, body.alto-contraste .rodape, body.alto-contraste .secao-header, body.alto-contraste .navegacao-sistemas { background: #000 !important; border-color: #ff0 !important; }
+
+    @media (max-width: 768px) {
+      .cabecalho .container { flex-direction: column; text-align: center; }
+      .rodape-grid { grid-template-columns: 1fr; gap: 32px; }
+      .barra-acessibilidade .container { justify-content: center; font-size: 0.78rem; }
+      .acess-info { width: 100%; text-align: center; }
+      .navegacao-sistemas .container { flex-direction: column; }
+      .nav-sistema-label { margin-right: 0; margin-bottom: 4px; }
+    }
+
+    body.fonte-grande { font-size: 18px; }
+    body.fonte-maior { font-size: 20px; }
+
+    @media print {
+      .barra-acessibilidade, .busca-container, .rodape, .navegacao-sistemas { display: none; }
+      .secao-link { color: #000 !important; }
+    }
+  </style>
+</head>
+<body>
+<main id="conteudo">
+    <section class="container intro">
+      <h2>Transparência Pública e Acesso à Informação</h2>
+      <div class="ornamento" aria-hidden="true"></div>
+      <p>
+        Este Portal centraliza o acesso aos dados de <strong>execução orçamentária, financeira e administrativa</strong>
+        da Câmara Municipal de Boa Hora/PI, em conformidade com a
+        <strong>Lei nº 12.527/2011</strong> (LAI), a <strong>Lei Complementar nº 101/2000</strong> (LRF) e as
+        diretrizes do <strong>Programa Nacional de Transparência Pública (PNTP) 2026</strong> da Atricon.
+      </p>
+      <p style="margin-top: 16px; font-size: 0.95rem;">
+        Para <strong>informações institucionais</strong> (história, vereadores, notícias), acesse o
+        <a href="https://www.boahora.pi.leg.br/" target="_blank" rel="noopener" style="color: var(--verde-medio); font-weight: 600;">Site Institucional</a>.
+        Para <strong>processo legislativo</strong> (projetos de lei, normas, sessões), acesse o
+        <a href="https://sapl.boahora.pi.leg.br/" style="color: var(--verde-medio); font-weight: 600;">SAPL</a>.
+      </p>
+    </section>
+
+    <section class="destaques" aria-labelledby="destaques-titulo">
+      <div class="container">
+        <h2 id="destaques-titulo" style="position:absolute;left:-9999px;">Selos e canais oficiais</h2>
+        <div class="destaques-grid">
+          <a href="https://radardatransparencia.atricon.org.br/" target="_blank" rel="noopener" class="destaque-card">
+            <div class="destaque-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
+              </svg>
+            </div>
+            <div class="destaque-texto">
+              <strong>Radar da Transparência</strong>
+              <span>Atricon — Avaliação nacional</span>
+            </div>
+          </a>
+
+          <a href="https://www.boahora.pi.leg.br/ouvidoria" target="_blank" rel="noopener" class="destaque-card">
+            <div class="destaque-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9 9a3 3 0 0 1 5.12-2.12 3 3 0 0 1 .88 2.12c0 2-3 3-3 3M12 17h.01"/>
+              </svg>
+            </div>
+            <div class="destaque-texto">
+              <strong>Acesso à Informação</strong>
+              <span>Lei nº 12.527/2011 — e-SIC</span>
+            </div>
+          </a>
+
+          <a href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDadosAbertos" target="_blank" rel="noopener" class="destaque-card">
+            <div class="destaque-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              </svg>
+            </div>
+            <div class="destaque-texto">
+              <strong>Dados Abertos</strong>
+              <span>Downloads em formato aberto</span>
+            </div>
+          </a>
+
+          <a href="https://www.diarioficialdosmunicipios.org/" target="_blank" rel="noopener" class="destaque-card">
+            <div class="destaque-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <div class="destaque-texto">
+              <strong>Diário Oficial</strong>
+              <span>AMM-PI — Publicações</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="secoes container" aria-label="Categorias de informações">
+      <div class="secoes-grid">
+
+        <article class="secao" id="receitas">
+          <header class="secao-header">
+            <div class="secao-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <h3 class="secao-titulo">Receitas</h3>
+          </header>
+          <ul class="secao-lista">
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkTransf" target="_blank" rel="noopener">Repasses Recebidos (Duodécimos) <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkReceitaExtraOrcamentaria" target="_blank" rel="noopener">Arrecadação Extra-Orçamentária <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/receitas/declaracao-2014-receitas-proprias" target="_blank" rel="noopener">Declaração sobre Receitas Próprias</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/receitas/declaracao-2014-divida-ativa" target="_blank" rel="noopener">Declaração — Dívida Ativa</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/receitas/declaracao-2014-renuncia-fiscal" target="_blank" rel="noopener">Declaração — Renúncia Fiscal</a></li>
+          </ul>
+          <div class="secao-aviso">A Câmara não arrecada tributos — recebe duodécimos do Executivo (art. 168 CF)</div>
+        </article>
+
+        <article class="secao" id="despesas">
+          <header class="secao-header">
+            <div class="secao-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <h3 class="secao-titulo">Despesas</h3>
+          </header>
+          <ul class="secao-lista">
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_NotaEmpenho" target="_blank" rel="noopener">Despesas Gerais (Empenhos) <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDiarias" target="_blank" rel="noopener">Diárias e Passagens <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasLiquidadas" target="_blank" rel="noopener">Despesas Liquidadas <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_PagamentoEmpenho" target="_blank" rel="noopener">Pagamento de Empenhos <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Fornecedor" target="_blank" rel="noopener">Despesas por Fornecedor <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Funcao" target="_blank" rel="noopener">Despesas por Função <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Subfuncao" target="_blank" rel="noopener">Despesas por Sub-Função <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Programa" target="_blank" rel="noopener">Despesas por Programa <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_ProjetoAtividade" target="_blank" rel="noopener">Despesas por Projeto/Atividade <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Categoria" target="_blank" rel="noopener">Despesas por Categoria Econômica <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Grupo" target="_blank" rel="noopener">Despesas por Grupo <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Elemento" target="_blank" rel="noopener">Despesas por Elemento <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Desdobro" target="_blank" rel="noopener">Despesas por Sub-Elemento <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Aplicacao" target="_blank" rel="noopener">Despesas por Aplicação <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_FonteRecurso" target="_blank" rel="noopener">Despesas por Fonte de Recurso <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_FonteRecursoDetalhado" target="_blank" rel="noopener">Fonte de Recurso Detalhado <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Orgao" target="_blank" rel="noopener">Despesas por Órgão <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_Unidade" target="_blank" rel="noopener">Despesas por Unidade <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_RestosPagar" target="_blank" rel="noopener">Restos a Pagar <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_ExtraOrcamentaria" target="_blank" rel="noopener">Despesas Extra-Orçamentárias <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_TipoOrcamento" target="_blank" rel="noopener">Despesas por Tipo de Orçamento <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDespesasPor_ComprasRealizadas" target="_blank" rel="noopener">Compras Realizadas <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/despesas/declaracao-2014-adiantamento" target="_blank" rel="noopener">Declaração — Adiantamento de Despesas</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/despesas/declaracao-2014-adiantamento" target="_blank" rel="noopener">Declaração — Patrocínio e Publicidade</a></li>
+          </ul>
+        </article>
+
+        <article class="secao" id="pessoas">
+          <header class="secao-header">
+            <div class="secao-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h3 class="secao-titulo">Gestão de Pessoas</h3>
+          </header>
+          <ul class="secao-lista">
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkServidores" target="_blank" rel="noopener">Servidores e Remuneração <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkServidoresCedidos" target="_blank" rel="noopener">Servidores Cedidos <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/gestao-de-pessoas/servidores-cedidos" target="_blank" rel="noopener">Declaração — Servidore Cedidos</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/gestao-de-pessoas/estagiarios" target="_blank" rel="noopener">Declaração — Estagiários</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/gestao-de-pessoas/terceirizados" target="_blank" rel="noopener">Declaração — Terceirizados</a></li>
+          </ul>
+        </article>
+
+        <article class="secao" id="licitacoes">
+          <header class="secao-header">
+            <div class="secao-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3L2 9l10 6 10-6-10-6zM2 9v6l10 6 10-6V9"/>
+              </svg>
+            </div>
+            <h3 class="secao-titulo">Licitações e Contratos</h3>
+          </header>
+          <ul class="secao-lista">
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkLicitacoes" target="_blank" rel="noopener">Licitações <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkContratos" target="_blank" rel="noopener">Contratos <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/institucional/mural-eletronico" target="_blank" rel="noopener">Avisos e Editais</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/licitacoes-e-contratos-1" target="_blank" rel="noopener">Plano Anual de Contratações (PCA)</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkLicitacoes" target="_blank" rel="noopener">Dispensa e Inexigibilidade</a></li>
+          </ul>
+        </article>
+
+        <article class="secao" id="contas">
+          <header class="secao-header">
+            <div class="secao-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <polyline points="9 15 11 17 15 13"/>
+              </svg>
+            </div>
+            <h3 class="secao-titulo">Prestação de Contas</h3>
+          </header>
+          <ul class="secao-lista">
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkBalanco" target="_blank" rel="noopener">Balanços <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkRelExecucao" target="_blank" rel="noopener">Relatórios de Execução Orçamentária <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkRelPrestacao" target="_blank" rel="noopener">Relatórios de Prestação de Contas <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkRREO" target="_blank" rel="noopener">RREO — Relatório Resumido <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkRGF" target="_blank" rel="noopener">RGF — Gestão Fiscal <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/controle-e-fiscalizacao-do-executivo-1/parecer-previo-tce-1" target="_blank" rel="noopener">Parecer Prévio do TCE-PI <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=LnkExecContratoPublicidade" target="_blank" rel="noopener">Execução Contrato Publicidade <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/prestacao-de-contas" target="_blank" rel="noopener">PPA — Plano Plurianual</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/prestacao-de-contas" target="_blank" rel="noopener">LDO — Lei de Diretrizes Orçamentárias</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/prestacao-de-contas" target="_blank" rel="noopener">LOA — Lei Orçamentária Anual</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/atos-administrativos-1" target="_blank" rel="noopener">Plano Estratégico Institucional</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/atos-administrativos-1" target="_blank" rel="noopener">Relatório Anual de Gestão</a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/sistema/relatorios/" target="_blank" rel="noopener">Relatórios do Controle Interno</a></li>
+          </ul>
+        </article>
+
+        <article class="secao" id="sic">
+          <header class="secao-header">
+            <div class="secao-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/>
+              </svg>
+            </div>
+            <h3 class="secao-titulo">SIC e Ouvidoria</h3>
+          </header>
+          <ul class="secao-lista">
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/?AcessoIndividual=lnkESIC" target="_blank" rel="noopener">Ouvidoria — Manifestações</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/?AcessoIndividual=lnkESIC" target="_blank" rel="noopener">Pedido de Acesso à Informação (LAI)</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/?AcessoIndividual=lnkESIC" target="_blank" rel="noopener">Registrar Denúncia</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/?AcessoIndividual=lnkESIC" target="_blank" rel="noopener">Sugestões e Elogios</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkPerguntasFrequentes" target="_blank" rel="noopener">Perguntas Frequentes <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkGlossario" target="_blank" rel="noopener">Glossário <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/acesso-a-informacao-sic-ouvidoria/carta-de-servicos-ao-cidadao" target="_blank" rel="noopener">Carta de Serviços ao Cidadão</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/acesso-a-informacao" target="_blank" rel="noopener">LAI Local — Regulamentação</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/acesso-a-informacao" target="_blank" rel="noopener">Política de Privacidade (LGPD)</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/acesso-a-informacao" target="_blank" rel="noopener">Encarregado de Dados (DPO)</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/?AcessoIndividual=lnkESIC" target="_blank" rel="noopener">Relatório Estatístico do e-SIC</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/?AcessoIndividual=lnkESIC" target="_blank" rel="noopener">Classificação de Documentos Sigilosos</a></li>
+          </ul>
+        </article>
+
+        <article class="secao sapl" id="legislativo">
+          <header class="secao-header">
+            <div class="secao-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 1l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>
+              </svg>
+            </div>
+            <h3 class="secao-titulo">Atividade Legislativa (SAPL)</h3>
+          </header>
+          <ul class="secao-lista">
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/parlamentar/" target="_blank" rel="noopener">Parlamentares (Vereadores) <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/mesa-diretora/" target="_blank" rel="noopener">Mesa Diretora <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/comissao/" target="_blank" rel="noopener">Comissões <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/sistema/bancada/" target="_blank" rel="noopener">Bancadas Parlamentares <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/sistema/bloco/" target="_blank" rel="noopener">Blocos Parlamentares <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/sistema/frente/" target="_blank" rel="noopener">Frentes Parlamentares <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/materia/pesquisar-materia" target="_blank" rel="noopener">Matérias Legislativas <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/norma/pesquisar" target="_blank" rel="noopener">Normas Jurídicas <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/sessao/pesquisar-sessao" target="_blank" rel="noopener">Sessões Plenárias <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/sessao/pauta-sessao" target="_blank" rel="noopener">Pautas das Sessões <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/audiencia/" target="_blank" rel="noopener">Audiências Públicas <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/docadm/pesq-doc-adm" target="_blank" rel="noopener">Documentos Administrativos <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sapl.boahora.pi.leg.br/sistema/relatorios/" target="_blank" rel="noopener">Relatórios de Produção <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/institucional/videos" target="_blank" rel="noopener">Transmissão de Sessões (TV/Vídeos) <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/processo-legislativo/verba-indenizatoria-cota-parlamentar" target="_blank" rel="noopener">Cotas Parlamentares / Verba Indenizatória</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/controle-e-fiscalizacao-do-executivo-1" target="_blank" rel="noopener">Controle e Fiscalização do Executivo</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/?AcessoIndividual=LnkEmendasParlamentares" target="_blank" rel="noopener">Emendas Parlamentares</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/declaracao-de-inexistencia-2014-emendas-parlamentares" target="_blank" rel="noopener">Declaração de Inexistencia — Emendas Parlamentares</a></li>
+          </ul>
+        </article>
+
+        <article class="secao" id="patrimonio">
+          <header class="secao-header">
+            <div class="secao-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <path d="M3 9h18M9 3v18"/>
+              </svg>
+            </div>
+            <h3 class="secao-titulo">Patrimônio e Atos Administrativos</h3>
+          </header>
+          <ul class="secao-lista">
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/bens-e-veiculos/declaracao-2014-multas-de-transito" target="_blank" rel="noopener">Bens Imóveis e Veículos</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/atos-administrativos-1" target="_blank" rel="noopener">Atos Administrativos</a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkDividaAtivaRelatorio" target="_blank" rel="noopener">Dívida Ativa (Relatório) <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://sistemas.boahora.pi.gov.br/cmboahora/Default.aspx?AcessoIndividual=lnkOutrosDocumentos" target="_blank" rel="noopener">Outros Documentos <span class="indicador-externo">↗</span></a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/convenios-e-transferencias" target="_blank" rel="noopener">Declaração — Convênios e Acordos</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/bens-e-veiculos/declaracao-2014-multas-de-transito" target="_blank" rel="noopener">Declaração — Multas de Trânsito</a></li>
+            <li><a class="secao-link" href="https://www.boahora.pi.leg.br/transparencia/atos-administrativos-1" target="_blank" rel="noopener">Declaração — Obras Públicas</a></li>
+          </ul>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="legislacao" aria-labelledby="legis-titulo">
+      <div class="container">
+        <h2 class="legislacao-titulo" id="legis-titulo">Legislação Aplicável</h2>
+        <p class="legislacao-sub">Marco normativo da transparência pública brasileira</p>
+
+        <div class="legislacao-grid">
+          <a href="http://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm" target="_blank" rel="noopener" class="legis-card">
+            <strong>Lei nº 12.527/2011</strong>
+            Lei de Acesso à Informação (LAI)
+          </a>
+          <a href="http://www.planalto.gov.br/ccivil_03/leis/lcp/lcp101.htm" target="_blank" rel="noopener" class="legis-card">
+            <strong>LC nº 101/2000</strong>
+            Lei de Responsabilidade Fiscal (LRF)
+          </a>
+          <a href="http://www.planalto.gov.br/ccivil_03/leis/lcp/lcp131.htm" target="_blank" rel="noopener" class="legis-card">
+            <strong>LC nº 131/2009</strong>
+            Lei da Transparência
+          </a>
+          <a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener" class="legis-card">
+            <strong>Lei nº 13.709/2018</strong>
+            Lei Geral de Proteção de Dados (LGPD)
+          </a>
+          <a href="http://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm" target="_blank" rel="noopener" class="legis-card">
+            <strong>Lei nº 14.133/2021</strong>
+            Nova Lei de Licitações
+          </a>
+          <a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13460.htm" target="_blank" rel="noopener" class="legis-card">
+            <strong>Lei nº 13.460/2017</strong>
+            Defesa do Usuário de Serviços
+          </a>
+          <a href="https://www.atricon.org.br/" target="_blank" rel="noopener" class="legis-card">
+            <strong>Atricon — PNTP</strong>
+            Programa Nacional de Transparência
+          </a>
+          <a href="http://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" target="_blank" rel="noopener" class="legis-card">
+            <strong>CF/1988</strong>
+            Constituição Federal, art. 37 e art. 8º
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
